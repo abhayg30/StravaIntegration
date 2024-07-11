@@ -1,0 +1,22 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+
+<div>AccessToken <span th:text="${accessToken}"></span></div>
+<div>Userdetail <span th:text="${UserDetails}"></span></div>
+<!--<div th:each="activity : ${UserDetails}">-->
+<!--    <p><span th:text="${activity.athleteId}"></span></p>-->
+<!--</div>-->
+
+<div>
+    <a href="/logout">Logout</a>
+</div>
+
+</body>
+</html>
