@@ -15,8 +15,8 @@ spring:
       client:
         registration:
           strava:
-            client-id: "128948"
-            client-secret: "0b2c7e227dac5ca1dd7139c95caebf98f7cec84f"
+            client-id: ####
+            client-secret: ####
             scope: read
             redirect-uri: "{baseUrl}/login/oauth2/code/my-running"
             authorization-grant-type: authorization_code
