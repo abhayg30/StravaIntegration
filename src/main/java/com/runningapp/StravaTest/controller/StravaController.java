@@ -7,6 +7,7 @@ import com.runningapp.StravaTest.service.StravaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,18 +31,31 @@ public class StravaController {
 
 
     @GetMapping("/home")
-    public String getUserDetails(Model model, OAuth2AuthenticationToken authenticationToken) throws JsonProcessingException {
-        OAuth2AuthorizedClient authorizedClient = authorizedClientService.loadAuthorizedClient(
-                authenticationToken.getAuthorizedClientRegistrationId(), authenticationToken.getName()
-        );
-        Object userDetail = stravaService.getUserDetails(authorizedClient.getAccessToken().getTokenValue()).getBody();
-        assert userDetail != null;
-        UserDetails userDetails = createUserDetailsObject(userDetail);
-        userDetailsRepository.save(userDetails);
-        model.addAttribute("accessToken", authorizedClient.getAccessToken().getTokenValue());
-        model.addAttribute("UserDetails", userDetail.toString());
+    public String getUserDetails(Model model, @RegisteredOAuth2AuthorizedClient("strava") OAuth2AuthorizedClient authorizedClient) {
+        String token = authorizedClient.getAccessToken().getTokenValue();
+//        Object userDetail = stravaService.getUserDetails(authorizedClient.getAccessToken().getTokenValue()).getBody();
+//        assert userDetail != null;
+//        UserDetails userDetails = createUserDetailsObject(userDetail);
+//        userDetailsRepository.save(userDetails);
+        model.addAttribute("accessToken", token);
+
+//        model.addAttribute("UserDetails", userDetail.toString());
         return "home";
     }
+
+//    @GetMapping("/home")
+//    public String getUserDetails(Model model, OAuth2AuthenticationToken authenticationToken) throws JsonProcessingException {
+//        OAuth2AuthorizedClient authorizedClient = authorizedClientService.loadAuthorizedClient(
+//                authenticationToken.getAuthorizedClientRegistrationId(), authenticationToken.getName()
+//        );
+//        Object userDetail = stravaService.getUserDetails(authorizedClient.getAccessToken().getTokenValue()).getBody();
+//        assert userDetail != null;
+//        UserDetails userDetails = createUserDetailsObject(userDetail);
+//        userDetailsRepository.save(userDetails);
+//        model.addAttribute("accessToken", authorizedClient.getAccessToken().getTokenValue());
+//        model.addAttribute("UserDetails", userDetail.toString());
+//        return "home";
+//    }
 
     private UserDetails createUserDetailsObject(Object userDetail) {
         UserDetails userDetails = new UserDetails();
